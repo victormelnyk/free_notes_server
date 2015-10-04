@@ -1,0 +1,22 @@
+{
+  "name": "fns",
+  "version": "1.0.0",
+  "description": "Free Note Server",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/victormelnyk/free_notes_server.git"
+  },
+  "author": "Victor Melnyk",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/victormelnyk/free_notes_server/issues"
+  },
+  "homepage": "https://github.com/victormelnyk/free_notes_server",
+  "dependencies": {
+    "pg": "^4.4.2"
+  }
+}
