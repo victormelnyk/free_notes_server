@@ -12,7 +12,7 @@ exports.Db = function(settings) {
   return self;
 
   function dbQuery(sql, callback, params) {
-    console.time('dbQuery');//!!
+    //!!console.time('dbQuery');//!!
     pg.connect(settings.connectionString, function(error, client, done) {
       if (error) {
         return console.error('Error fetching client from pool', error);
@@ -20,7 +20,7 @@ exports.Db = function(settings) {
 
       client.query(sql, params || [], function(error, result) {
         done();
-        console.timeEnd('dbQuery');//!!
+        //!!console.timeEnd('dbQuery');//!!
         if (error) {
           return console.error('Error running query ' + sql, error);
         }

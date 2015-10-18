@@ -3,9 +3,12 @@ exports.Host = function(settings) {
   var
     self = this,
 
+    fs = require('fs'),
     express = require('express'),
+    cors = require('cors'),
     morgan = require('morgan'),
     //!!bodyParser = require('body-parser'),
+    accessLogStream = fs.createWriteStream('./access.log', {flags: 'a'}),
 
     app = express();
 
@@ -17,9 +20,11 @@ exports.Host = function(settings) {
   return self;
 
   function init() {
-    app.use(morgan('dev'));
+    app.use(cors());
+    app.use(morgan('combined'/*!!'dev'*/, {stream: accessLogStream}));
     /*!!app.use(bodyParser.urlencoded({extended: true}));
     app.use(bodyParser.json());*/
+
     app.listen(settings.port);
 
     app.get('/notes', function (req, res) {
