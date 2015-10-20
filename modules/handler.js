@@ -7,16 +7,16 @@ exports.handler = function(host, db) {
     });
   }
 
+  host.onPostNote = function(tags, data, res) {
+    db.insertNote(tags, data, function(note) {
+      res.json(note);
+    });
+  }
+
   host.onPutNote = function(tags, id, data, res) {
-    if (id) {
-      db.updateNote(tags, id, data, function(note) {
-        res.json(note);
-      });
-    } else {
-      db.insertNote(tags, data, function(note) {
-        res.json(note);
-      });
-    }
+    db.updateNote(tags, id, data, function(note) {
+      res.json(note);
+    });
   }
 
   host.onDeleteNote = function(tags, id, res) {

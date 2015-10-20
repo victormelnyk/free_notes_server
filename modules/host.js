@@ -13,6 +13,7 @@ exports.Host = function(settings) {
     app = express();
 
   self.onGetNotes = null;
+  self.onPostNote = null;
   self.onPutNote = null;
   self.onDeleteNote = null;
 
@@ -21,22 +22,27 @@ exports.Host = function(settings) {
 
   function init() {
     app.use(cors());
-    app.use(morgan('combined'/*!!'dev'*/, {stream: accessLogStream}));
+    //app.use(morgan('combined', {stream: accessLogStream}));
+    app.use(morgan('dev'));
     /*!!app.use(bodyParser.urlencoded({extended: true}));
     app.use(bodyParser.json());*/
 
     app.listen(settings.port);
 
-    app.get('/notes', function (req, res) {
-      self.onGetNotes(req.query.tags, res);
+    app.get('/tags/:tags/notes/', function (req, res) {
+      self.onGetNotes(req.params.tags, res);
     });
 
-    app.put('/notes', function (req, res) {
-      self.onPutNote(req.headers.tags, req.headers.id, req.headers.data, res);
+    app.post('/tags/:tags/notes/', function (req, res) {
+      self.onPostNote(req.params.tags, req.query.data/*req.headers.data*/, res);
     });
 
-    app.delete('/notes', function (req, res) {
-      self.onDeleteNote(req.headers.tags, req.headers.id, res);
+    app.put('/tags/:tags/notes/:id', function (req, res) {
+      self.onPutNote(req.params.tags, req.params.id, req.query.data/*req.headers.data*/, res);
+    });
+
+    app.delete('/tags/:tags/notes/:id', function (req, res) {
+      self.onDeleteNote(req.params.tags, req.params.id, res);
     });
   }
 }
