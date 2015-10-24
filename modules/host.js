@@ -7,7 +7,7 @@ exports.Host = function(settings) {
     express = require('express'),
     cors = require('cors'),
     morgan = require('morgan'),
-    //!!bodyParser = require('body-parser'),
+    bodyParser = require('body-parser'),
     accessLogStream = fs.createWriteStream('./access.log', {flags: 'a'}),
 
     app = express();
@@ -22,10 +22,9 @@ exports.Host = function(settings) {
 
   function init() {
     app.use(cors());
-    //app.use(morgan('combined', {stream: accessLogStream}));
-    app.use(morgan('dev'));
-    /*!!app.use(bodyParser.urlencoded({extended: true}));
-    app.use(bodyParser.json());*/
+    app.use(morgan(/*!!'dev'*/'combined', {stream: accessLogStream}));
+    app.use(bodyParser.urlencoded({extended: true}));
+    app.use(bodyParser.json());
 
     app.listen(settings.port);
 
@@ -34,11 +33,11 @@ exports.Host = function(settings) {
     });
 
     app.post('/tags/:tags/notes', function (req, res) {
-      self.onPostNote(req.params.tags, req.query.data/*req.headers.data*/, res);
+      self.onPostNote(req.params.tags, req.body.data, res);
     });
 
     app.put('/tags/:tags/notes/:id', function (req, res) {
-      self.onPutNote(req.params.tags, req.params.id, req.query.data/*req.headers.data*/, res);
+      self.onPutNote(req.params.tags, req.params.id, req.body.data, res);
     });
 
     app.delete('/tags/:tags/notes/:id', function (req, res) {
