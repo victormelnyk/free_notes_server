@@ -29,11 +29,11 @@ exports.Host = function(settings) {
 
     app.listen(settings.port);
 
-    app.get('/tags/:tags/notes/', function (req, res) {
+    app.get('/tags/:tags/notes', function (req, res) {
       self.onGetNotes(req.params.tags, res);
     });
 
-    app.post('/tags/:tags/notes/', function (req, res) {
+    app.post('/tags/:tags/notes', function (req, res) {
       self.onPostNote(req.params.tags, req.query.data/*req.headers.data*/, res);
     });
 
